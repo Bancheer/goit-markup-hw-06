@@ -99,7 +99,7 @@ body {
 
 .logo {
   font-family: "Raleway", sans-serif;
-  font-weight: 800;
+  font-weight: 900;
   font-size: 16px;
   letter-spacing: 0.03em;
   color: var(--text);
@@ -123,13 +123,20 @@ body {
   margin-left: auto;
 }
 
-.nav__link,
-.contacts__link {
+.nav__link {
+  font-family: "Roboto", Arial, sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
   display: block;
   padding: 24px 0;
   transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .contacts__link {
+  font-family: "Roboto", Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
   color: var(--muted);
 }
 .link:hover,
@@ -354,18 +361,27 @@ body {
   align-items: center;
   justify-content: center;
   color: #8e8f99;
+  border-color: currentColor;
   transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1),
     border-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+.customers__link svg [fill]:not([fill="none"]) {
+  fill: currentColor !important;
+}
+.customers__link svg [stroke]:not([stroke="none"]) {
+  stroke: currentColor !important;
+}
+
 .customers__link:hover,
 .customers__link:focus {
-  color: var(--accent);
-  border-color: var(--accent);
+  color: #404bbf; /* можно и var(--accent-hover) — это тот же цвет */
+  border-color: #404bbf;
 }
 
 .customers__link {
-  color: #8e8f99;             /* цвет иконки/текста */
-  border-color: currentColor;  /* рамка = текущему цвету */
+  color: #8e8f99; /* цвет иконки/текста */
+  border-color: currentColor; /* рамка = текущему цвету */
 }
 
 /* чтобы логотипы подхватывали цвет */
@@ -804,5 +820,333 @@ address {
 @media (max-width: 600px) {
   .team .card {
     flex-basis: 100%;
+  }
+}
+
+/* База: серые логотипы и рамка */
+.customers__link {
+  color: #8e8f99;
+  border-color: currentColor;
+  transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ключ: прокидываем переменные, которые использует спрайт */
+.customers__link svg {
+  /* делаем обе переменные равными текущему цвету */
+  --color1: currentColor;
+  --color2: currentColor;
+}
+
+/* Ховер: заливаем #404BBF и рамку тоже */
+.customers__link:hover,
+.customers__link:focus {
+  color: #404bbf; /* при таком спрайте это и есть var(--accent-hover) */
+  border-color: #404bbf;
+}
+
+/* (необязательно) плавная анимация заливки */
+.customers__link svg [fill] {
+  transition: fill 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* БАЗА: фон внутри символа скрыт, глиф берет текущий цвет ссылки */
+.footer-social__link svg {
+  --color1: transparent; /* скрыть внутренний круг из symbol */
+  --color2: currentColor; /* рисуем только «значок» */
+}
+
+/* ХОВЕР: кружок зелёный, глиф белый */
+.footer-social__link:is(:hover, :focus) {
+  background: #31d0aa;
+  color: #fff;
+}
+
+.footer-social__link:is(:hover, :focus) svg {
+  --color1: transparent; /* фон symbol остаётся скрытым */
+  --color2: #fff; /* сам значок белый */
+}
+
+/* Footer socials — базово #4D5AE5, при ховере #31D0AA, глиф всегда белый */
+.footer-social__link {
+  background: #4d5ae5; /* базовый синий фон кружка */
+  color: #fff; /* цвет глифа (через currentColor) */
+}
+
+.footer-social__link svg {
+  --color1: transparent; /* скрываем внутренний круг из symbol */
+  --color2: currentColor; /* сам значок = белый */
+}
+
+.footer-social__link:is(:hover, :focus) {
+  background: #31d0aa; /* зелёный при наведении */
+  color: #fff; /* глиф остаётся белым */
+}
+
+.footer-social__link:is(:hover, :focus) svg {
+  --color1: transparent;
+  --color2: currentColor;
+}
+
+/* Our Team socials — базово #4D5AE5, при ховере #404BBF, глиф белый */
+.team .social__link {
+  background: #4d5ae5;
+  color: #fff;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.team .social__link svg {
+  /* скрываем внутренний “фон-круг” из symbol и красим только значок */
+  --color1: transparent;
+  --color2: currentColor;
+  fill: currentColor; /* на случай, если в symbol нет переменных */
+}
+
+.team .social__link:is(:hover, :focus) {
+  background: #404bbf;
+  color: #fff;
+}
+
+.team .social__link:is(:hover, :focus) svg {
+  --color1: transparent;
+  --color2: currentColor;
+}
+
+.field > span {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.input-wrap {
+  position: relative;
+}
+.input-wrap input {
+  width: 100%;
+  padding: 10px 38px; /* место под иконку слева */
+  border: 1px solid rgba(46, 47, 66, 0.4);
+  border-radius: 4px;
+  transition: border-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.input-wrap input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(77, 90, 229, 0.15);
+}
+.input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  fill: rgba(46, 47, 66, 0.6);
+  pointer-events: none;
+  transition: fill 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.input-wrap input:focus + .input-icon {
+  fill: var(--accent);
+}
+
+.checkbox .policy-link {
+  color: var(--accent);
+  text-decoration: underline;
+  transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.checkbox .policy-link:hover,
+.checkbox .policy-link:focus {
+  color: var(--accent-hover);
+}
+
+.backdrop {
+  background-color: rgba(46, 47, 66, 0.6); /* #2E2F42 с 60% непрозрачности */
+  /* или так: background-color: #2E2F4299;  99 = ~60% альфа */
+}
+
+/* прячем галочку по умолчанию */
+.checkbox input + .checkmark svg {
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* показываем после клика */
+.checkbox input:checked + .checkmark svg {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* визуальное состояние квадрата */
+.checkbox input + .checkmark {
+  background: transparent;
+  border-color: rgba(46, 47, 66, 0.4);
+}
+.checkbox input:checked + .checkmark {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff; /* если галочка использует currentColor */
+}
+
+/* на всякий случай: если в другом месте стоит opacity:1 */
+.checkbox .checkmark svg {
+  will-change: opacity, transform;
+}
+
+/* Focus без тени для всех полей */
+.input-wrap input:focus,
+.textarea textarea:focus,
+.footer .subscribe-form input:focus {
+  outline: none;
+  border-color: var(--accent); /* обводка остаётся */
+  box-shadow: none; /* тень убираем */
+}
+
+/* Если не нужна тень у чекбокса при фокусе */
+.checkbox input:focus + .checkmark {
+  box-shadow: none; /* убрать «свечение» */
+  border-color: var(--accent); /* оставить подсветку рамки */
+}
+
+/* 1) Поля не вылезают из контейнера */
+.input-wrap,
+.input-wrap input,
+.textarea textarea {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* 2) Подписка в футере: позволяем сжиматься и переноситься */
+.footer .subscribe-form {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+.footer .subscribe-form input {
+  /* вместо жёсткой ширины — гибкая */
+  flex: 1 1 240px; /* можно менять 240 на вкус */
+  min-width: 0; /* важно для флекса, иначе переполнение */
+}
+.footer .subscribe-form .subscribe-form__btn {
+  flex: 0 0 auto;
+}
+
+/* на узких экранах — в столбик, ничего не торчит */
+@media (max-width: 600px) {
+  .footer .subscribe-form {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer .subscribe-form input {
+    width: 100%;
+    flex-basis: 100%;
+  }
+}
+
+/* 3) Модалка: поля строго по ширине модалки */
+.modal {
+  width: min(408px, calc(100% - 32px));
+}
+.modal-form {
+  display: grid;
+  gap: 12px;
+}
+.modal .input-wrap,
+.modal .textarea {
+  width: 100%;
+}
+.modal .input-wrap input,
+.modal .textarea textarea {
+  width: 100%;
+}
+
+/* 4) Убрали свечение, оставили обводку (как просил ранее) */
+.input-wrap input:focus,
+.textarea textarea:focus,
+.footer .subscribe-form input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: none;
+}
+
+/* Колонка подписки во футере */
+.footer__subscribe {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Форма */
+.footer .subscribe-form {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+/* Поле email — без «свечения», с подсветкой рамки на фокусе */
+.footer .subscribe-form input {
+  width: 264px;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  background: transparent;
+  color: #fff;
+  transition: border-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.footer .subscribe-form input::placeholder {
+  color: rgba(244, 244, 253, 0.6);
+}
+.footer .subscribe-form input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: none; /* как просил — никакой тени */
+}
+
+/* Кнопка + подсветка */
+.subscribe-form__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 24px;
+  border: none;
+  border-radius: 4px;
+  background: var(--accent); /* #4D5AE5 */
+  color: #fff;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.subscribe-form__btn:hover,
+.subscribe-form__btn:focus {
+  background: var(--accent-hover); /* #404BBF — «подсветка» */
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Иконка «send» — белая внутри кнопки (на случай var(--color1/--color2) в спрайте) */
+.subscribe-form__btn .icon {
+  fill: currentColor;
+}
+.subscribe-form__btn svg {
+  --color1: #fff;
+  --color2: #fff;
+}
+
+/* Адаптив: чтобы ничего не вылезало на узких экранах */
+@media (max-width: 600px) {
+  .footer .subscribe-form {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer .subscribe-form input {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+  .subscribe-form__btn {
+    flex: 0 0 auto;
   }
 }

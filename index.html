@@ -64,7 +64,10 @@
       <!-- Hero -->
       <section class="hero">
         <div class="container">
-          <h1 class="hero__title">Effective Solutions <br> for Your Business</h1>
+          <h1 class="hero__title">
+            Effective Solutions <br />
+            for Your Business
+          </h1>
           <button type="button" class="hero__btn" data-modal-open>
             Order Service
           </button>
@@ -475,6 +478,26 @@
               </li>
             </ul>
           </div>
+          <div class="footer__subscribe">
+            <p class="footer__social-title">Subscribe</p>
+
+            <form class="subscribe-form" name="subscribe">
+              <label class="visually-hidden" for="subscribe-email">Email</label>
+              <input
+                type="email"
+                id="subscribe-email"
+                name="email"
+                placeholder="E-mail"
+                required
+              />
+              <button class="btn subscribe-form__btn" type="submit">
+                Subscribe
+                <svg class="icon" width="24" height="24" aria-hidden="true">
+                  <use href="./images/icons.svg#icon-send"></use>
+                </svg>
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </footer>
@@ -490,10 +513,12 @@
         <button
           class="modal-close"
           type="button"
-          data-modal-close
           aria-label="Close"
+          data-modal-close
         >
-          <svg><use href="./images/icons.svg#icon-close"></use></svg>
+          <svg class="icon" width="8" height="8" aria-hidden="true">
+            <use href="./images/icons.svg#icon-close"></use>
+          </svg>
         </button>
 
         <p class="modal-title" id="modal-title">
@@ -537,11 +562,23 @@
           </label>
 
           <label class="checkbox">
-            <input class="visually-hidden" type="checkbox" required />
+            <input
+              id="policy"
+              class="visually-hidden"
+              type="checkbox"
+              required
+            />
             <span class="checkmark">
               <svg><use href="./images/icons.svg#icon-check"></use></svg>
             </span>
-            I accept the terms and conditions
+            I accept the terms and conditions of the
+            <a
+              class="link policy-link"
+              href="./privacy.html"
+              target="_blank"
+              rel="noopener"
+              >Privacy Policy</a
+            >
           </label>
 
           <button type="submit" class="btn primary">Send</button>
@@ -553,28 +590,54 @@
     <script>
       (() => {
         const refs = {
-          open: document.querySelector("[data-modal-open]"),
-          close: document.querySelector("[data-modal-close]"),
-          modal: document.querySelector("[data-modal]"),
+          openBtn: document.querySelector("[data-modal-open]"),
+          closeBtn: document.querySelector("[data-modal-close]"),
+          backdrop: document.querySelector("[data-modal]"),
+          firstField: null,
+          lastActive: null,
         };
-        const toggle = () => {
-          refs.modal.classList.toggle("is-hidden");
-          document.body.classList.toggle("modal-open");
-        };
-        refs.open?.addEventListener("click", toggle);
-        refs.close?.addEventListener("click", toggle);
-        refs.modal?.addEventListener("click", (e) => {
-          if (e.target === refs.modal) toggle();
-        });
-        document.addEventListener("keydown", (e) => {
-          if (
-            e.key === "Escape" &&
-            !refs.modal?.classList.contains("is-hidden")
-          ) {
-            toggle();
+
+        if (!refs.openBtn || !refs.backdrop) return;
+
+        const open = () => {
+          refs.lastActive = document.activeElement;
+          refs.backdrop.classList.remove("is-hidden");
+          document.body.classList.add("modal-open");
+          // фокус на первое поле
+          const first = refs.backdrop.querySelector(
+            "input, textarea, button, [href]"
+          );
+          if (first) {
+            first.focus();
+            refs.firstField = first;
           }
-        });
+          window.addEventListener("keydown", onKeydown);
+        };
+
+        const close = () => {
+          refs.backdrop.classList.add("is-hidden");
+          document.body.classList.remove("modal-open");
+          window.removeEventListener("keydown", onKeydown);
+          // вернуть фокус на кнопку
+          if (refs.lastActive) refs.lastActive.focus();
+        };
+
+        const onBackdrop = (e) => {};
+        const onKeydown = (e) => {
+          if (e.key === "Escape") close();
+        };
+
+        refs.openBtn.addEventListener("click", open);
+        const closeBtn = refs.backdrop.querySelector("[data-modal-close]");
+        if (closeBtn) closeBtn.addEventListener("click", close);
       })();
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".checkbox .policy-link").forEach((a) => {
+          a.addEventListener("click", (e) => e.stopPropagation());
+        });
+      });
     </script>
   </body>
 </html>
